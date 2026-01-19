@@ -6,37 +6,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{
-  background:linear-gradient(135deg,#4b0082,#7209b7);
-  color:#fff;min-height:100vh;overflow-x:hidden
+* {margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body {
+  background: linear-gradient(135deg,#4b0082,#7209b7);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden; /* evita scroll da página */
 }
-.page{display:none;min-height:100vh;padding:30px 20px;text-align:center;animation:fade .4s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-h1{font-size:32px;margin-bottom:20px}
-p{margin:10px 0}
-button{
-  padding:14px 26px;border:0;border-radius:30px;font-size:16px;
-  cursor:pointer;margin:10px;transition:transform .2s
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 30px 20px;
+  text-align: center;
+  animation: fade .4s ease;
+  overflow: hidden; /* evita scroll interno */
 }
-button:hover{transform:scale(1.1)}
-.bora{
-  background:linear-gradient(90deg,#c77dff,#fff);color:#3a0ca3;
-  box-shadow:0 0 15px rgba(255,255,255,.6)
+.page.active {display: block;}
+@keyframes fade {from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+h1 {font-size:32px;margin-bottom:20px;}
+p {margin:10px 0;}
+button {
+  padding: 14px 26px;
+  border:0;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  margin:10px;
+  transition:transform .2s;
 }
-.nao{background:#ff4d6d;color:#fff;position:absolute}
-.game-icon{font-size:120px;cursor:pointer;margin:20px 0;transition:transform .3s}
-.game-icon:hover{transform:scale(1.15)}
-.spin{animation:spin 3s ease-out}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(1080deg)}}
-.machine{position:relative;font-size:120px}
-.garra{
-  position:absolute;top:0;left:50%;width:6px;height:0;background:#fff;
-  transform:translateX(-50%);transition:height 1s ease
+button:hover {transform:scale(1.1);}
+.bora {
+  background: linear-gradient(90deg,#c77dff,#fff);
+  color: #3a0ca3;
+  box-shadow:0 0 15px rgba(255,255,255,.6);
 }
-.small{font-size:14px;opacity:.9}
-.footer{margin-top:20px}
+.nao {
+  background:#ff4d6d;
+  color:#fff;
+  position:absolute;
+}
+.game-icon {
+  font-size:120px;
+  cursor:pointer;
+  margin:20px 0;
+  transition:transform .3s;
+}
+.game-icon:hover {transform:scale(1.15);}
+.spin {animation: spin 3s ease-out;}
+@keyframes spin {from{transform:rotate(0)}to{transform:rotate(1080deg)}}
+.machine {
+  position: relative;
+  font-size: 120px;
+}
+.garra {
+  position:absolute;
+  top:0; left:50%;
+  width:6px;
+  height:0;
+  background:#fff;
+  transform:translateX(-50%);
+  transition:height 1s ease;
+}
+.small {font-size:14px;opacity:.9;}
+.footer {margin-top:20px;}
 </style>
 </head>
 
@@ -97,7 +130,7 @@ button:hover{transform:scale(1.1)}
 function goTo(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+n).classList.add('active');
-  window.scrollTo(0,0);
+  // window.scrollTo(0,0);  ← removido para evitar scroll bug
 }
 
 /* Botão fujão */
@@ -105,7 +138,8 @@ const noBtn=document.getElementById('noBtn');
 noBtn.addEventListener('mouseenter',()=>{
   const x=Math.random()*(window.innerWidth-120);
   const y=Math.random()*(window.innerHeight-60);
-  noBtn.style.left=x+'px'; noBtn.style.top=y+'px';
+  noBtn.style.left=x+'px'; 
+  noBtn.style.top=y+'px';
 });
 
 /* Sons (Web Audio) */
@@ -118,8 +152,8 @@ function beep(freq=440,dur=0.08){
   g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
   o.stop(ctx.currentTime+dur);
 }
-function clickSound(){beep(700,.06)}
-function winSound(){beep(520,.12); setTimeout(()=>beep(780,.12),120)}
+function clickSound(){beep(700,.06);}
+function winSound(){beep(520,.12); setTimeout(()=>beep(780,.12),120);}
 
 /* Estado */
 let tentRoleta=0, tentGarra=0;
